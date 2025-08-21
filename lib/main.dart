@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Menu Example',
+      title: "Flutter MultiScreens",
       theme: ThemeData(
         primarySwatch: Colors.teal,
       ),
@@ -27,41 +27,32 @@ class MenuScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.teal,
         title: const Text("Menu"),
         centerTitle: true,
+        backgroundColor: Colors.teal,
       ),
       body: Center(
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+ 
           children: [
             ElevatedButton(
               onPressed: () {
-                // Aquí irá la navegación a "Example layout"
+
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.teal,
-              ),
               child: const Text("Example layout"),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                // Aquí irá la navegación a "Example counter"
+
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.teal,
-              ),
               child: const Text("Example counter"),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-                // Aquí irá la navegación a "List dynamic"
+
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.teal,
-              ),
               child: const Text("List dynamic"),
             ),
           ],
@@ -70,3 +61,4 @@ class MenuScreen extends StatelessWidget {
     );
   }
 }
+
