@@ -47,7 +47,6 @@ class MenuScreen extends StatelessWidget {
             const SizedBox(height: 10),
             ElevatedButton(
               onPressed: () {
-
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (_) => const ExampleCounter()),
@@ -57,13 +56,22 @@ class MenuScreen extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             ElevatedButton(
+              child: const Text("List dynamic"),
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (_) => const ExampleList()),
+                  MaterialPageRoute(builder: (context) => const ExampleList()),
                 );
               },
-              child: const Text("List dynamic"),
+            ),
+            ElevatedButton(
+              child: const Text("Drawing Board"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const DrawingPage()),
+                );
+              },
             ),
           ],
         ),
@@ -112,6 +120,7 @@ class ExampleLayout extends StatelessWidget {
     );
   }
 }
+
 class ExampleCounter extends StatefulWidget {
   const ExampleCounter({super.key});
 
@@ -161,7 +170,6 @@ class _ExampleCounterState extends State<ExampleCounter> {
                   child: const Text("Aumentar"),
                 ),
                 const SizedBox(width: 10),
-
               ],
             )
           ],
@@ -170,6 +178,7 @@ class _ExampleCounterState extends State<ExampleCounter> {
     );
   }
 }
+
 class ExampleList extends StatefulWidget {
   const ExampleList({super.key});
 
@@ -178,8 +187,8 @@ class ExampleList extends StatefulWidget {
 }
 
 class _ExampleListState extends State<ExampleList> {
-  List<String> items = []; 
-  int counter = 0;        
+  List<String> items = [];
+  int counter = 0;
 
   void _addItem() {
     setState(() {
@@ -211,4 +220,72 @@ class _ExampleListState extends State<ExampleList> {
       ),
     );
   }
+}
+
+class DrawingPage extends StatefulWidget {
+  const DrawingPage({super.key});
+
+  @override
+  State<DrawingPage> createState() => _DrawingPageState();
+}
+
+class _DrawingPageState extends State<DrawingPage> {
+  List<Offset?> points = [];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Drawing Board"),
+        backgroundColor: Colors.teal,
+      ),
+      body: GestureDetector(
+        onPanUpdate: (details) {
+          setState(() {
+            points.add(details.localPosition);
+          });
+        },
+        onPanEnd: (details) {
+          setState(() {
+            points.add(null);
+          });
+        },
+        child: CustomPaint(
+          painter: DrawingPainter(points),
+          size: Size.infinite,
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          setState(() {
+            points.clear();
+          });
+        },
+        backgroundColor: Colors.red,
+        child: const Icon(Icons.delete),
+      ),
+    );
+  }
+}
+
+class DrawingPainter extends CustomPainter {
+  final List<Offset?> points;
+  DrawingPainter(this.points);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.black
+      ..strokeCap = StrokeCap.round
+      ..strokeWidth = 4.0;
+
+    for (int i = 0; i < points.length - 1; i++) {
+      if (points[i] != null && points[i + 1] != null) {
+        canvas.drawLine(points[i]!, points[i + 1]!, paint);
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(DrawingPainter oldDelegate) => true;
 }
